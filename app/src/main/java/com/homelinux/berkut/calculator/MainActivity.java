@@ -44,104 +44,60 @@ public class MainActivity extends Activity {
 //        textViewIn.setInputType(InputType.TYPE_NULL);
 //        textViewOut.setInputType(InputType.TYPE_NULL);
 
-        final OnClickListener lbtn24 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calculate();
-                textViewIn.setText(String.valueOf(textViewOut.getText()));
+        final OnClickListener lbtn24 = v -> {
+            calculate();
+            textViewIn.setText(String.valueOf(textViewOut.getText()));
 
-            }
         };
-        OnClickListener lbtn1 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("1");
-                calculate();
-            }
+        OnClickListener lbtn1 = v -> {
+            textViewIn.append("1");
+            calculate();
         };
-        OnClickListener lbtn2 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("2");
-                calculate();
-            }
+        OnClickListener lbtn2 = v -> {
+            textViewIn.append("2");
+            calculate();
         };
-        OnClickListener lbtn3 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("3");
-                calculate();
-            }
+        OnClickListener lbtn3 = v -> {
+            textViewIn.append("3");
+            calculate();
         };
-        OnClickListener lbtn4 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("4");
-                calculate();
-            }
+        OnClickListener lbtn4 = v -> {
+            textViewIn.append("4");
+            calculate();
         };
-        OnClickListener lbtn5 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("5");
-                calculate();
-            }
+        OnClickListener lbtn5 = v -> {
+            textViewIn.append("5");
+            calculate();
         };
-        OnClickListener lbtn6 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("6");
-                calculate();
-            }
+        OnClickListener lbtn6 = v -> {
+            textViewIn.append("6");
+            calculate();
         };
-        OnClickListener lbtn7 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("7");
-                calculate();
-            }
+        OnClickListener lbtn7 = v -> {
+            textViewIn.append("7");
+            calculate();
         };
-        OnClickListener lbtn8 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("8");
-                calculate();
-            }
+        OnClickListener lbtn8 = v -> {
+            textViewIn.append("8");
+            calculate();
         };
-        OnClickListener lbtn9 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("9");
-                calculate();
-            }
+        OnClickListener lbtn9 = v -> {
+            textViewIn.append("9");
+            calculate();
         };
-        OnClickListener lbtn0 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("0");
-                calculate();
-            }
+        OnClickListener lbtn0 = v -> {
+            textViewIn.append("0");
+            calculate();
         };
-        OnClickListener lbtn23 = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("+");
-            }
-        };
-        OnClickListener lbtnd = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textViewIn.append("/");
-            }
-        };
-        OnClickListener lbtndel = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = String.valueOf(textViewIn.getText());
+        OnClickListener lbtn23 = v -> textViewIn.append("+");
+        OnClickListener lbtnd = v -> textViewIn.append("/");
+        OnClickListener lbtndel = v -> {
+            String text = String.valueOf(textViewIn.getText());
+            if (!text.equals("")) {
                 String substring = text.substring(0, text.length() - 1);
                 textViewIn.setText(substring);
-                calculate();
             }
+            calculate();
         };
         Button btn24 = (Button) findViewById(R.id.button24);
         btn24.setOnClickListener(lbtn24);
