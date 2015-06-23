@@ -149,8 +149,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="B4"
-            android:id="@+id/button13"
+            android:text="*"
+            android:id="@+id/buttonumn"
             android:layout_weight="1" />
 
         <Button
@@ -192,8 +192,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="B4"
-            android:id="@+id/button18"
+            android:text="-"
+            android:id="@+id/buttonminus"
             android:layout_weight="1" />
 
         <Button
