@@ -2,12 +2,15 @@ package com.homelinux.berkut.calculator;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -23,7 +26,8 @@ public class MainActivity extends Activity {
 
     EditText textViewIn;
     EditText textViewOut;
-
+//      MyTextEdit textViewIn;
+//      MyTextEdit textViewOut;
 //    @Override
 //    public View findViewById(int id) {
 //        return super.findViewById(id);
@@ -34,13 +38,23 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_main);
 
 
 //        textViewIn =  findViewById(R.id.editText);
+//        ((EditText) findViewById(R.id.editText)).setInputType(InputType.TYPE_NULL);
+//        ((EditText) findViewById(R.id.editText2)).setInputType(InputType.TYPE_NULL);
         textViewIn = (EditText) findViewById(R.id.editText);
+
         textViewOut = (EditText) findViewById(R.id.editText2);
+        textViewOut.setKeyListener(null);
+        textViewIn.setInputType(InputType.TYPE_NULL);
+        if (android.os.Build.VERSION.SDK_INT >= 11)
+        {
+            textViewIn.setRawInputType(InputType.TYPE_CLASS_TEXT);
+            textViewIn.setTextIsSelectable(true);
+        }
 //        textViewIn.setInputType(InputType.TYPE_NULL);
 //        textViewOut.setInputType(InputType.TYPE_NULL);
 
@@ -49,114 +63,107 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 MainActivity.this.calculate();
                 textViewIn.setText(String.valueOf(textViewOut.getText()));
-
+                textViewIn.setSelection(textViewIn.getText().length());
             }
         };
         OnClickListener lbtn1 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("1");
-                MainActivity.this.calculate();
+                insertSymbol("1");
             }
         };
         OnClickListener lbtn2 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("2");
-                MainActivity.this.calculate();
+                insertSymbol("2");
             }
         };
         OnClickListener lbtn3 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("3");
-                MainActivity.this.calculate();
+                insertSymbol("3");
             }
         };
         OnClickListener lbtn4 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("4");
-                MainActivity.this.calculate();
+                insertSymbol("4");
             }
         };
         OnClickListener lbtn5 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("5");
-                MainActivity.this.calculate();
+                insertSymbol("5");
             }
         };
         OnClickListener lbtn6 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("6");
-                MainActivity.this.calculate();
+                insertSymbol("6");
             }
         };
         OnClickListener lbtn7 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("7");
-                MainActivity.this.calculate();
+                insertSymbol("7");
             }
         };
         OnClickListener lbtn8 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("8");
-                MainActivity.this.calculate();
+                insertSymbol("8");
             }
         };
         OnClickListener lbtn9 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("9");
-                MainActivity.this.calculate();
+                insertSymbol("9");
             }
         };
         OnClickListener lbtn0 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("0");
-                MainActivity.this.calculate();
+                insertSymbol("0");
             }
         };
         OnClickListener lbtnumn = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("*");
-                MainActivity.this.calculate();
+                insertSymbol("*");
             }
         };
         OnClickListener lbtnminus = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("-");
-                MainActivity.this.calculate();
+                insertSymbol("-");
             }
         };
         OnClickListener lbtn23 = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("+");
+                insertSymbol("+");
             }
         };
         OnClickListener lbtnd = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewIn.append("/");
+                insertSymbol("/");
             }
         };
         OnClickListener lbtndel = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = String.valueOf(textViewIn.getText());
-                if (!text.equals("")) {
-                    String substring = text.substring(0, text.length() - 1);
-                    textViewIn.setText(substring);
+                int pos = textViewIn.getSelectionStart();
+                if(pos>0){
+                    textViewIn.setText(textViewIn.getText().delete(pos-1,pos));
+                    textViewIn.setSelection(pos-1);
                 }
-                MainActivity.this.calculate();
+//                if (!text.equals("")) {
+//                    String substring = text.substring(0, text.length() - 1);
+//                    textViewIn.setText(substring);
+//                }
+                calculate();
             }
         };
         Button btn24 = (Button) findViewById(R.id.button24);
@@ -191,6 +198,23 @@ public class MainActivity extends Activity {
         btnumn.setOnClickListener(lbtnumn);
         Button btnminus = (Button) findViewById(R.id.buttonminus);
         btnminus.setOnClickListener(lbtnminus);
+        Button btnpoint = (Button) findViewById(R.id.buttonPoint);
+        OnClickListener lbtnPoint = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertSymbol(".");
+
+//                textViewIn.append(".");
+            }
+        };
+        btnpoint.setOnClickListener(lbtnPoint);
+    }
+
+    private void insertSymbol(String s) {
+        int pos = textViewIn.getSelectionStart();
+        textViewIn.setText(textViewIn.getText().insert(pos,s));
+        textViewIn.setSelection(pos+1);
+        calculate();
     }
 
     private void calculate() {
@@ -200,6 +224,7 @@ public class MainActivity extends Activity {
         MathEvaluator me = new MathEvaluator(s);
 //        double res = ;
         textViewOut.setText(me.getValue());
+
     }
 
 
