@@ -3,6 +3,7 @@ package com.homelinux.berkut.calculator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,6 +15,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
+
 import static android.view.View.*;
 
 //import android.content.Context;
@@ -23,7 +28,7 @@ import static android.view.View.*;
 
 public class MainActivity extends Activity {
 
-
+    List<String> memory;
     EditText textViewIn;
     EditText textViewOut;
 //      MyTextEdit textViewIn;
@@ -40,7 +45,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 //        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_main);
-
+        memory = new LinkedList<>();
 
 //        textViewIn =  findViewById(R.id.editText);
 //        ((EditText) findViewById(R.id.editText)).setInputType(InputType.TYPE_NULL);
@@ -66,12 +71,49 @@ public class MainActivity extends Activity {
                 textViewIn.setSelection(textViewIn.getText().length());
             }
         };
+
+        OnClickListener lbtn_mplus = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                memory.add(textViewIn.getText().toString().concat("=".concat(textViewOut.getText().toString())));
+            }
+        };
+        OnClickListener lbtn_mminus = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                memory.clear();
+            }
+        };
+        OnClickListener lbtn_mlist = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // call intent
+                Intent intent = new Intent(getApplicationContext(), MemoryListActivity.class);
+                intent.putExtra("list", (Serializable)memory);
+                startActivity(intent);
+            }
+        };
+
+
+        OnClickListener lbtn_br1 = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertSymbol("(");
+            }
+        };
+        OnClickListener lbtn_br2 = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertSymbol(")");
+            }
+        };
         OnClickListener lbtn1 = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 insertSymbol("1");
             }
         };
+
         OnClickListener lbtn2 = new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +208,20 @@ public class MainActivity extends Activity {
                 calculate();
             }
         };
+
+        Button btn_mmplus = (Button) findViewById(R.id.button9);
+        btn_mmplus.setOnClickListener(lbtn_mplus);
+
+        Button btn_mminus = (Button) findViewById(R.id.button14);
+        btn_mminus.setOnClickListener(lbtn_mminus);
+
+        Button btn_mlist = (Button) findViewById(R.id.button19);
+        btn_mlist.setOnClickListener(lbtn_mlist);
+
+        Button btn_br1 = (Button) findViewById(R.id.button1);
+        btn_br1.setOnClickListener(lbtn_br1);
+        Button btn_br2 = (Button) findViewById(R.id.button2);
+        btn_br2.setOnClickListener(lbtn_br2);
         Button btn24 = (Button) findViewById(R.id.button24);
         btn24.setOnClickListener(lbtn24);
         Button btn0 = (Button) findViewById(R.id.button20);
